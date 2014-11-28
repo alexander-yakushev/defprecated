@@ -15,32 +15,107 @@
 
   /Can I deprecate this library?/
 
-  Yes, you can, but then you will be responsible for writing another one.
+  Yes, you can, but then you will be responsible for writing a new one.
 
-  Listen to this testimonies!
+  Just read these testimonies!
+  #+BEGIN_QUOTE
+  Use it or delete it. There is no deprecate. -- Master Joda
+  #+END_QUOTE
 
-  /"Use or delete. There is no deprecate." Master Joda/
+  #+BEGIN_QUOTE
+  We have a policy of releasing entire Java packages in which every single
+  class, interface and method is deprecated right out of the box, starting at
+  version 1.0. -- Morris Baldwin, by [[http://steve-yegge.blogspot.no/2010/07/wikileaks-to-leak-5000-open-source-java.html][Steve Yegge]]
+  #+END_QUOTE
 
-  Sorry, that's the wrong one. Try this:
-
-  /"We have a policy of releasing entire Java packages in which every single/
-  /class, interface and method is deprecated right out of the box, starting at/
-  /version 1.0." Morris Baldwin, by [[http://steve-yegge.blogspot.no/2010/07/wikileaks-to-leak-5000-open-source-java.html][Steve Yegge]]/
-
-  /"I just do (:refer-clojure :exclude [defn defmacro]) and (:use/
-  /defprecated.code)."/
+  #+BEGIN_QUOTE
+  I just do (:refer-clojure :exclude [defn defmacro]) and (:use
+  defprecated.core). Deprecating stuff has never been easier. -- Regular Joe
+  #+END_QUOTE
 
 ** Man, you need help
 
    No, wait, I got this. *defprecated* is a minimalistic library for marking
    functions, macros and global vars as deprecated. When the time comes and you
-   realize that you made an bad API decision, mark the function as deprecated
-   instead of removing it. You'll get the best from two worlds: old users won't
-   have their code crash, but they will migrate to the new API over time.
+   realize that you made a bad API decision, mark the function as deprecated
+   instead of removing it. You'll get the best from two worlds: old users' code
+   won't crash, but they will migrate to the new API over time.
 
 ** Usage
 
-   
+   Put this into your =:depencencies=:
+
+   [[https://clojars.org/defprecated][https://clojars.org/defprecated/latest-version.svg]]
+
+   Replace any =def=, =defn= or =defmacro= you want to deprecate with a
+   corresponding macro from =defprecated.core=. For example:
+
+   #+BEGIN_SRC clojure
+(require '[defprecated.core :as depr])
+
+(depr/defn foo "A useless function."
+  [x y]
+  (+ x y))
+   #+END_SRC
+
+   A few things will happen:
+   - Docstring will be updated to contain the deprecation warning.
+   - Same warning will be printed when the function is called for the first
+     time.
+
+   You can change deprecation options by editing =:deprecated= metadata for that
+   function/macro/var.
+
+   #+BEGIN_SRC clojure
+(depr/defn foo "A useless function."
+  {:deprecated {:in "0.2.5"
+                :use-instead bar
+                :print-warning :always}}
+  [x] (+ x x))
+   #+END_SRC
+
+   Here are the possible options:
+   - =:in= --- specifies the version of the library/program when the function
+     became deprecated.
+   - =:use-instead= --- can be a string or a var name. Expands the warning message
+     to contain the alternative function/macro to be used instead of the
+     deprecated one. If var name is provided, its namespace will be also shown.
+   - =:print-warning= --- can either be =:always=, =:once= and =:never=. The
+     default is =:once=, which means warning will be printed only the first time
+     the function is called (or the macro is expanded).
+   - =:print-function= --- change this if you want a warning to be printed with
+     something other than =println=.
+
+*** Deprecate specific arities
+
+    You can add =^:deprecated= tag to argument vectors in a multi-arity
+    function/macro.
+
+    #+BEGIN_SRC clojure
+(depr/defn baz
+  ([x]
+   (+ x x))
+  (^:deprecated [x y]
+   (+ x y))
+  ([x y z]
+   (+ x y z))
+  (^:deprecated [x y z o]
+   (+ x y)))
+    #+END_SRC
+
+    If a function/macro has at least one =:deprecated= arity, the following will
+    happen:
+
+    - The functions itself will NOT be marked as deprecated.
+    - =:forms= metadata will contain only non-deprecated arities.
+    - Warning will be printed only when deprecated arities are called.
+
+    #+BEGIN_SRC clojure
+=> (baz 2 3)
+WARNING: arities ([x y] [x y z o]) are deprecated, use one of ([x] [x y z]) instead.
+5
+    #+END_SRC
+
 ** License
 
-   Deprecate the licenses, this is in public domain. [[http://i.creativecommons.org/p/zero/1.0/80x15.png]]
+   Deprecate the licenses, this is in public domain. [[http://creativecommons.org/publicdomain/zero/1.0/][http://i.creativecommons.org/p/zero/1.0/80x15.png]]
