@@ -1,0 +1,46 @@
+* DEFprecated - deprecate all the things!
+
+  Psst, chummer! Looking for some deprecation? You've come to the right place.
+  Deprecate like never before, deprecate everything! Deprecate symbols,
+  deprecate functions and macros, deprecate arities, deprecate programming
+  languages, deprecate hardware and software, deprecate your enemies and
+  friends, deprecate your loved ones, deprecate your dog, deprecate yourself for
+  eating that donut, deprecate social institutions, deprecate social injustice,
+  deprecate government and FRS, deprecate NSA, deprecate yourself again for
+  deprecating everything, deprecate that feeling, go on deprecation spree!
+
+  /Did you just say "deprecate your dog"?/
+
+  No, I didn't.
+
+  /Can I deprecate this library?/
+
+  Yes, you can, but then you will be responsible for writing another one.
+
+  Listen to this testimonies!
+
+  /"Use or delete. There is no deprecate." Master Joda/
+
+  Sorry, that's the wrong one. Try this:
+
+  /"We have a policy of releasing entire Java packages in which every single/
+  /class, interface and method is deprecated right out of the box, starting at/
+  /version 1.0." Morris Baldwin, by [[http://steve-yegge.blogspot.no/2010/07/wikileaks-to-leak-5000-open-source-java.html][Steve Yegge]]/
+
+  /"I just do (:refer-clojure :exclude [defn defmacro]) and (:use/
+  /defprecated.code)."/
+
+** Man, you need help
+
+   No, wait, I got this. *defprecated* is a minimalistic library for marking
+   functions, macros and global vars as deprecated. When the time comes and you
+   realize that you made an bad API decision, mark the function as deprecated
+   instead of removing it. You'll get the best from two worlds: old users won't
+   have their code crash, but they will migrate to the new API over time.
+
+** Usage
+
+   
+** License
+
+   Deprecate the licenses, this is in public domain. [[http://i.creativecommons.org/p/zero/1.0/80x15.png]]
