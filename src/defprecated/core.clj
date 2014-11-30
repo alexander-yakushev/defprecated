@@ -51,21 +51,20 @@
         depr-map (conj {:print-warning :once}
                        (if (map? depr-map) depr-map {:in depr-map}))
         warn-msg (make-warning-msg name *ns* depr-map)
-        arity-warn-fmt (str "WARNING: arit%s %s %s deprecated, use one of "
+        arity-warn-fmt (str "WARNING: #'" *ns* "/" name " arit%s %s %s deprecated, use one of "
                             (seq good-arities) " instead.")
         print-fn (:print-function depr-map 'println)
         warning-sym (gensym "warning")
-        m (transient m)]
-    (if has-depr-arities
-      (do
-        (assoc! m :deprecated nil)
-        (assoc! m :forms (list `quote good-arities)))
-      (do
-        (assoc! m :deprecated (:in depr-map "current version"))
-        (assoc! m :doc (str warn-msg "\n  " (:doc m)))))
+        m (if has-depr-arities
+            (-> m
+                (assoc :deprecated nil)
+                (assoc :forms (list `quote good-arities)))
+            (-> m
+                (assoc :deprecated (:in depr-map "current version"))
+                (update-in [:doc] #(str warn-msg "\n  " %))))]
     (case (:print-warning depr-map)
       :always
-      (list* original name (persistent! m)
+      (list* original name m
              (for [[params & body] fdecl]
                `(~params
                  ~@(if has-depr-arities
@@ -80,7 +79,7 @@
                                      (format arity-warn-fmt "ies"
                                              (seq depr-arities) "are")
                                      warn-msg)))]
-         ~(list* original name (persistent! m)
+         ~(list* original name m
                  (for [[params & body] fdecl]
                    `(~params
                      ~@(when (or (not has-depr-arities)
@@ -88,7 +87,7 @@
                          `((force ~warning-sym)))
                      ~@body))))
 
-      :never (list* original name (persistent! m) fdecl))))
+      :never (list* original name m fdecl))))
 
 (core/defmacro defn
   "Sames as `clojure.core/defn` but defines a deprecated funcion. "
