@@ -55,7 +55,7 @@
     (return-output-stream (fun4 4))
     => ""
     (return-output-stream (fun4 4 5))
-    => "WARNING: arity [x y] is deprecated, use one of ([x]) instead.\n")
+    => "WARNING: #'defprecated.t-core/fun4 arity [x y] is deprecated, use one of ([x]) instead.\n")
 
   (fact ":print-function allows to customize how to output the warning"
     (def out (atom []))
