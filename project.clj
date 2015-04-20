@@ -1,4 +1,4 @@
-(defproject defprecated "0.1.2-SNAPSHOT"
+(defproject defprecated "0.1.2"
   :description "Deprecation in Clojure made easy"
   :url "https://github.com/alexander-yakushev/defprecated"
   :license {:name "CC0"
