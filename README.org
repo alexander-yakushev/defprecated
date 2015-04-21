@@ -1,3 +1,4 @@
+[[https://travis-ci.org/alexander-yakushev/defprecated/][https://travis-ci.org/alexander-yakushev/defprecated.svg?branch=master]] [[https://coveralls.io/r/alexander-yakushev/defprecated?branch%3Dmaster][https://coveralls.io/repos/alexander-yakushev/defprecated/badge.svg?branch=master]]
 * DEFprecated - deprecate all the things!
 
   Psst, chummer! Looking for some deprecation? You've come to the right place.
