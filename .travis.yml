@@ -16,7 +16,5 @@ jdk:
   - oraclejdk8
 matrix:
   include:
-    - env: TEST_CMD="lein with-profile +1.7 coverage --coveralls"
-      jdk: oraclejdk8
     - env: TEST_CMD="lein with-profile +1.7 eastwood"
       jdk: oraclejdk8

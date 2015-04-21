@@ -64,12 +64,3 @@
       [] 42)
     (return-output-stream (fun5)) => ""
     @out => ["WARNING: #'defprecated.t-core/fun5 is deprecated."]))
-
-
-
-
-
-
-
-
-
