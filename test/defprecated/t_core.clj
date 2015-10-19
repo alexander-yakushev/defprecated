@@ -5,7 +5,7 @@
 
 (defmacro return-output-stream [& body]
   `(let [sw# (StringWriter.)]
-     (binding [*out* sw#]
+     (binding [*err* sw#]
        ~@body)
      (str sw#)))
 

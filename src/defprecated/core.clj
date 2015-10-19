@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [defn defmacro])
   (:require [clojure.core :as core]))
 
-(defn- make-warning-msg [sym ns depr-map]
+(core/defn- make-warning-msg [sym ns depr-map]
   (format "WARNING: %s is deprecated%s."
           (str "#'" ns "/" sym)
           (if-let [instead (:use-instead depr-map)]
@@ -10,6 +10,10 @@
                     (if-let [instead-var (ns-resolve ns instead)]
                       instead-var instead))
             "")))
+
+(core/defn println-stderr [s]
+  (binding [*out* *err*]
+    (println s)))
 
 (core/defmacro def
   "Sames as `def` but defines a deprecated var."
@@ -53,7 +57,7 @@
         warn-msg (make-warning-msg name *ns* depr-map)
         arity-warn-fmt (str "WARNING: #'" *ns* "/" name " arit%s %s %s deprecated, use one of "
                             (seq good-arities) " instead.")
-        print-fn (:print-function depr-map 'println)
+        print-fn (:print-function depr-map `println-stderr)
         warning-sym (gensym "warning")
         m (if has-depr-arities
             (-> m
