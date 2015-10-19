@@ -84,8 +84,8 @@
    - =:print-warning= --- can either be =:always=, =:once= and =:never=. The
      default is =:once=, which means warning will be printed only the first time
      the function is called (or the macro is expanded).
-   - =:print-function= --- change this if you want a warning to be printed with
-     something other than =println=.
+   - =:print-function= --- set a custom function for printing out warnings. By
+     default they are printed to STDERR.
 
 *** Deprecate specific arities
 
